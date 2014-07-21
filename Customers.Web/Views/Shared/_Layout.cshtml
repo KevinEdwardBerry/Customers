@@ -15,7 +15,65 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    @RenderBody()
+    <div class="off-canvas-wrap">
+        <div class="inner-wrap">
+
+            <aside class="left-off-canvas-menu">
+                @*//This form tag is required for the code in LoginOffCanvasPartial*@
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new
+                {
+                    id = "logoutForm", @*@class = "right"*@ }))
+                {
+                    <ul class="off-canvas-list">
+                        <li>
+                            <label class="first">NAVIGATION</label>
+                        </li>
+                        <li><a href="/Home">Home</a></li>
+                        <li><a href="/Overview">Overview</a></li>
+                        <li><a href="/Home/Contact">Contact</a></li>
+                    </ul>
+                }
+            </aside>
+
+            <nav class="tab-bar show-for-small">
+                <a class="left-off-canvas-toggle menu-icon">
+                    <span>Menu</span>
+                </a>
+            </nav>
+
+            <!--contains to grid start - Remove to expand nav elements to edge of page-->
+            <div class="contain-to-grid">
+                <!--use Foundation top-bar element for all but small screens-->
+                <nav class="top-bar hide-for-small" data-topbar>
+                    <ul class="title-area">
+                        <li class="name">
+                            <h1><a href="/Home/">WEBSITE</a></h1>
+                        </li>
+                    </ul>
+
+                    <section class="top-bar-section">
+                        <ul class="right">
+                            <li class="divider"></li>
+                            <li class="has-dropdown">
+                                <a href="#" class="">Home</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">Overview</a></li>
+                                    <li><a href="#">Contact</a></li>
+                                </ul>
+                            </li>
+                            @Html.Partial("_LoginPartial")
+                        </ul>
+
+                    </section>
+                </nav>
+
+                <!-- Contain to grid end-->
+            </div>
+            <a class="exit-off-canvas" href="#"></a>
+            <!--PUT ALL UP IN _FOUNDATION-->
+            @RenderBody()
+        </div><!--off-canvas inner-->
+    </div><!--off-canvas wrap-->
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/foundation")
