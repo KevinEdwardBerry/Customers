@@ -82,5 +82,33 @@ namespace Customers.Web.Tests
             customerK = repo.Find(new FindCustomerByPhone("(555)123-4567")).First();
             Assert.AreEqual("(555)123-4567", customerK.Phone);
         }
+
+        [Test]
+        public void You_Should_Be_Able_To_Get_All_Customers_In_The_Database()
+        {
+            var myCustomer2 = new Customer
+            {
+                FirstName = "Bob",
+                LastName = "Ridge",
+                Company = new Company("DryFire USA"),
+                Email = "askbob@dryfireus.com",
+                Phone = "(555)321-4568",
+            };
+            var billing2 = new CustomerBillingAddress
+            {
+                Customer = myCustomer2,
+                Street1 = "321 SomeOtherStreet",
+                City = "Awesome Other City",
+                State = "TX",
+                ZipCode = "75168"
+            };
+            myCustomer2.BillingAddress = billing2;
+
+            repo.Context.Add(myCustomer2);
+            repo.Context.Commit();
+
+            var allCustomers = repo.Find(new FindAll<Customer>());
+            Assert.AreEqual(2, allCustomers.Count());
+        }
     }
 }

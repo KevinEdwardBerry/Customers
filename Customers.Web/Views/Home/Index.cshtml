@@ -1,4 +1,26 @@
-﻿@{
+﻿@using Customers.Domain;
+@using Customers.Data;
+@using Highway.Data;
+
+@model Customers.Web.Models.IndexModel
+@{
+    var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+    var mappingConfig = new MappingConfig();
+    var context = new DataContext(connectionString, mappingConfig);
+    var repo = new Repository(context);
+    List<Customer> Customers = repo.Find(new FindAll<Customer>()).ToList();
+    List<Company> Companies = repo.Find(new FindAll<Company>()).ToList();
+    
+    if (Customers == null || Customers == default(List<Customer>))
+    {
+        Customers.Add(new Customer{FirstName = "A", LastName = "B", Company = new Company("C"), Email = "a@b.com"});
+    }
+    
+    if (Companies == null || Companies == default(List<Company>))
+    {
+        Companies.Add(new Company("C"));
+    }
+    //List<Customer> Customers = Model.Customers;
     ViewBag.Title = "Customers";
 }
 <div class="row">
@@ -20,25 +42,25 @@
                 <td>
                     Company Name
                 </td>
-                <td>
-                </td>
-                <td>
-                </td>
+                <td></td>
+                <td></td>
                 <td align="center">
                     <a href="#" class="small button">Create New</a>
                 </td>
             </tr>
         </thead>
         <tbody>
+            @foreach (var customer in Customers)
+            {
             <tr>
                 <td>
-                    Kevin
+                    @customer.FirstName
                 </td>
                 <td>
-                    Berry
+                    @customer.LastName
                 </td>
                 <td>
-                    Improving Enterprises
+                    @customer.Company.Name
                 </td>
                 <td align="center">
                     <a href="#">View</a>
@@ -50,6 +72,8 @@
                     <a href="#">Delete</a>
                 </td>
             </tr>
+            }
         </tbody>
+
     </table>
 </div>
