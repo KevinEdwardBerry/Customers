@@ -9,6 +9,7 @@ using Highway.Data;
 using Highway.Data.Contexts;
 using System.Data.Entity;
 using Customers.Domain;
+using Customers.Data;
 
 namespace Customers.Web.Tests
 {
@@ -72,23 +73,6 @@ namespace Customers.Web.Tests
             repo.Context.Remove(customerK);
             repo.Context.Commit();
             Assert.IsEmpty(repo.Find(new FindCustomerByFirstName("Kevin")));
-        }
-    }
-
-    public class FindCustomerByFirstName : Query<Customer>
-    {
-        public FindCustomerByFirstName(string firstName)
-        {
-            ContextQuery = c => c.AsQueryable<Customer>().Where(e => e.FirstName == firstName);
-        }
-    }
-
-    public class MappingConfig : IMappingConfiguration
-    {
-        public void ConfigureModelBuilder(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Customer>().HasOptional(e => e.BillingAddress).WithRequired(e => e.Customer);
-            modelBuilder.Entity<Company>().HasOptional(e => e.MailingAddress).WithRequired(e => e.Company);
         }
     }
 }
