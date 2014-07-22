@@ -17,28 +17,17 @@ namespace Customers.Web.Tests
     public class CRUD_Tests
     {
 
-        //private InMemoryDataContext context;
-        //private IRepository repo;
-        //private HomeController controller;
+        private InMemoryDataContext context;
+        private IRepository repo;
+        private Customer customerK;
 
         [SetUp]
         public void Setup()
         {
-            //context = new InMemoryDataContext();
-            //repo = new Repository(context);
-            //controller = new HomeController(repo);
-        }
+            context = new InMemoryDataContext();
+            repo = new Repository(context);
 
-        [Test]
-        public void When_Creating_A_New_Customer_It_Should_Persist_To_The_Database()
-        {
-            // Arrange
-            var connectionString = "Server=.;Database=HighwayDemo;Integrated Security=true";
-            var mappingConfig = new MappingConfig();
-            var context = new DataContext(connectionString, mappingConfig);
-            var repo = new Repository(context);
-
-            // Act
+            // All tests will fail if the Create does not work
             repo.Context.Add(new Customer
             {
                 FirstName = "Kevin",
@@ -49,42 +38,40 @@ namespace Customers.Web.Tests
             });
             repo.Context.Commit();
 
-            // Assert
-            var customerK = repo.Find(new FindCustomerByFirstName("Kevin"));
-            Assert.AreEqual("Kevin", customerK.First().FirstName);
+            customerK = repo.Find(new FindCustomerByFirstName("Kevin")).First();
         }
 
         [Test]
-        public void When_Getting_A_Customer_From_The_Database_Appropriate_Information_Should_Be_Accessible()
+        public void When_Creating_A_New_Customer_It_Should_Persist_To_The_Database()
         {
             // Arrange
+            //var connectionString = "Server=.;Database=HighwayDemo;Integrated Security=true";
+            //var mappingConfig = new MappingConfig();
+            //var context = new DataContext(connectionString, mappingConfig);
+            //var repo = new Repository(context);
 
-            // Act
 
-            // Assert
-            Assert.AreEqual(1, 1);
+            // ******** Test Read ********
+            Assert.AreEqual("Kevin", customerK.FirstName);
         }
 
         [Test]
         public void When_Updating_The_Information_Of_A_Customer_The_New_Information_Should_Persist()
         {
-            // Arrange
-
-            // Act
-
-            // Assert
-            Assert.AreEqual(1, 1);
+            // ******** Test Update ********
+            customerK.Phone = "(555)987-4321";
+            repo.Context.Commit();
+            var newPhoneCustomerK = repo.Find(new FindCustomerByFirstName("Kevin")).First();
+            Assert.AreEqual("(555)987-4321", newPhoneCustomerK.Phone);
         }
 
         [Test]
         public void When_A_Customer_Is_Removed_From_The_Database_They_Should_No_Longer_Be_Found_In_The_Database()
         {
-            // Arrange
-
-            // Act
-
-            // Assert
-            Assert.AreEqual(1, 1);
+            // ******** Test Delete ********
+            repo.Context.Remove(customerK);
+            repo.Context.Commit();
+            Assert.IsEmpty(repo.Find(new FindCustomerByFirstName("Kevin")));
         }
     }
 
