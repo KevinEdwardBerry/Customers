@@ -18,6 +18,38 @@ namespace Customers.Data
         }
     }
 
+    public class FindCustomerByLastName : Query<Customer>
+    {
+        public FindCustomerByLastName(string lastName)
+        {
+            ContextQuery = c => c.AsQueryable<Customer>().Where(e => e.LastName == lastName);
+        }
+    }
+
+    public class FindCustomerByCompanyName : Query<Customer>
+    {
+        public FindCustomerByCompanyName(string companyName)
+        {
+            ContextQuery = c => c.AsQueryable<Customer>().Where(e => e.Company.Name == companyName);
+        }
+    }
+
+    public class FindCustomerByEmail : Query<Customer>
+    {
+        public FindCustomerByEmail(string email)
+        {
+            ContextQuery = c => c.AsQueryable<Customer>().Where(e => e.Email == email);
+        }
+    }
+
+    public class FindCustomerByPhone : Query<Customer>
+    {
+        public FindCustomerByPhone(string phone)
+        {
+            ContextQuery = c => c.AsQueryable<Customer>().Where(e => e.Phone == phone);
+        }
+    }
+
     public class MappingConfig : IMappingConfiguration
     {
         public void ConfigureModelBuilder(DbModelBuilder modelBuilder)
