@@ -107,6 +107,7 @@
     <Compile Include="CRUD_Tests.cs" />
     <Compile Include="HomeControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadBy_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Customers.Domain\Customers.Domain.csproj">
