@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Highway.Data;
 using Highway.Data.Contexts;
+using System.Data.Entity;
+using Customers.Domain;
 
 namespace Customers.Web.Tests
 {
@@ -15,15 +17,15 @@ namespace Customers.Web.Tests
     public class CRUD_Tests
     {
 
-        private InMemoryDataContext context;
-        private IRepository repo;
-        private HomeController controller;
+        //private InMemoryDataContext context;
+        //private IRepository repo;
+        //private HomeController controller;
 
         [SetUp]
         public void Setup()
         {
-            context = new InMemoryDataContext();
-            repo = new Repository(context);
+            //context = new InMemoryDataContext();
+            //repo = new Repository(context);
             //controller = new HomeController(repo);
         }
 
@@ -31,11 +33,25 @@ namespace Customers.Web.Tests
         public void When_Creating_A_New_Customer_It_Should_Persist_To_The_Database()
         {
             // Arrange
+            var connectionString = "Server=.;Database=HighwayDemo;Integrated Security=true";
+            var mappingConfig = new MappingConfig();
+            var context = new DataContext(connectionString, mappingConfig);
+            var repo = new Repository(context);
 
             // Act
+            repo.Context.Add(new Customer
+            {
+                FirstName = "Kevin",
+                LastName = "Berry",
+                Company = new Company("Improving Enterprises"),
+                Email = "kevin.berry@improvingenterprises.com",
+                Phone = "(555)123-4567"
+            });
+            repo.Context.Commit();
 
             // Assert
-            Assert.AreEqual(1, 1);
+            var customerK = repo.Find(new FindCustomerByFirstName("Kevin"));
+            Assert.AreEqual("Kevin", customerK.First().FirstName);
         }
 
         [Test]
@@ -69,6 +85,23 @@ namespace Customers.Web.Tests
 
             // Assert
             Assert.AreEqual(1, 1);
+        }
+    }
+
+    public class FindCustomerByFirstName : Query<Customer>
+    {
+        public FindCustomerByFirstName(string firstName)
+        {
+            ContextQuery = c => c.AsQueryable<Customer>().Where(e => e.FirstName == firstName);
+        }
+    }
+
+    public class MappingConfig : IMappingConfiguration
+    {
+        public void ConfigureModelBuilder(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Customer>().HasOptional(e => e.BillingAddress).WithRequired(e => e.Customer);
+            modelBuilder.Entity<Company>().HasOptional(e => e.MailingAddress).WithRequired(e => e.Company);
         }
     }
 }

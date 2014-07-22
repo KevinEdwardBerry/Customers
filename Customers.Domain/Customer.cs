@@ -11,9 +11,9 @@ namespace Customers.Domain
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Company CompanyName { get; set; }
+        public Company Company { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public Address BillingAddress { get; set; }
+        public CustomerBillingAddress BillingAddress { get; set; }
     }
 }

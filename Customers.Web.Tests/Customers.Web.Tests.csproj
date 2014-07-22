@@ -109,6 +109,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Customers.Domain\Customers.Domain.csproj">
+      <Project>{a352df77-f34e-462b-879f-257184102e36}</Project>
+      <Name>Customers.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Customers.Web\Customers.Web.csproj">
       <Project>{a45d20d3-d88c-4b02-985a-97a62815a0e1}</Project>
       <Name>Customers.Web</Name>
