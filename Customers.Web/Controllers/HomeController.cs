@@ -16,8 +16,8 @@ namespace Customers.Web.Controllers
         public ActionResult Index()
         {
             var model = new CustomerModel(new Repo());
-            model.Repository.GetAllCompanies();
             model.Repository.GetAllCustomers();
+            model.Repository.GetAllCompanies();
 
             if (model.Customers.Count == 0) 
             {
@@ -45,7 +45,7 @@ namespace Customers.Web.Controllers
 
         public ViewResult AddCustomer()
         {
-            return View("AddCustomer");
+            return View("AddCustomer", new CustomerModel(new Repo()));
         }
 
         public ViewResult NewCustomerConfirmation()
