@@ -19,6 +19,7 @@ namespace Customers.Domain
 
         public int Id { get; set; }
         public string Name { get; set; }
+
         public CompanyMailingAddress MailingAddress { get; set; }
     }
 }

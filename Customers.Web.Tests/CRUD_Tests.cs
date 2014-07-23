@@ -45,13 +45,6 @@ namespace Customers.Web.Tests
         [Test]
         public void When_Creating_A_New_Customer_It_Should_Persist_To_The_Database()
         {
-            // Arrange
-            //var connectionString = "Server=.;Database=HighwayDemo;Integrated Security=true";
-            //var mappingConfig = new MappingConfig();
-            //var context = new DataContext(connectionString, mappingConfig);
-            //var repo = new Repository(context);
-
-
             // ******** Test Read ********
             Assert.AreEqual("Kevin", customerK.FirstName);
         }

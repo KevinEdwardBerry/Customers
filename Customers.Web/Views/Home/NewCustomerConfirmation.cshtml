@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "New Customer Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Customer Confirmation</h2>
+
+<!-- confirmation message
+    a button for going back to view all customers
+    a button for creating another new customer
+    -->
+
+<p>
+    You have successfully added a new customer.
+</p>
+
+<p>
+    @Html.ActionLink("Add Another Customer", "AddCustomer", null, new { @class = "small button" })
+    @Html.ActionLink("View All Customers", "Index", null, new { @class = "small button" })
+</p>

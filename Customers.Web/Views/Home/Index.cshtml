@@ -43,9 +43,8 @@
                     Company Name
                 </td>
                 <td></td>
-                <td></td>
                 <td align="center">
-                    <a href="#" class="small button">Create New</a>
+                    @Html.ActionLink("Add Customer", "AddCustomer", null, new { @class = "small button" })
                 </td>
             </tr>
         </thead>
@@ -61,9 +60,6 @@
                 </td>
                 <td>
                     @customer.Company.Name
-                </td>
-                <td align="center">
-                    <a href="#">View</a>
                 </td>
                 <td align="center">
                     <a href="#">Edit</a>

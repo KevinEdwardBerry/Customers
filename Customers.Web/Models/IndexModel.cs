@@ -14,7 +14,7 @@ namespace Customers.Web.Models
     {
         public IndexModel()
         {
-            var connectionString = "Server=s4lin082lz.database.windows.net,1433;Database=HighwayDemo;Integrated Security=true";
+            var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
             var mappingConfig = new MappingConfig();
             var context = new DataContext(connectionString, mappingConfig);
             var repo = new Repository(context);
