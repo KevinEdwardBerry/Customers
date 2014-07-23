@@ -1,26 +1,10 @@
-﻿@using Customers.Domain;
-@using Customers.Data;
-@using Highway.Data;
+﻿@using Customers.Web.Models;
 
-@*@model Customers.Web.Models.IndexModel*@
+@model CustomerModel
 @{
-    var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
-    var mappingConfig = new MappingConfig();
-    var context = new DataContext(connectionString, mappingConfig);
-    var repo = new Repository(context);
-    List<Customer> Customers = repo.Find(new FindAll<Customer>()).ToList();
-    List<Company> Companies = repo.Find(new FindAll<Company>()).ToList();
-    
-    if (Customers == null || Customers == default(List<Customer>))
-    {
-        Customers.Add(new Customer{FirstName = "A", LastName = "B", Company = new Company("C"), Email = "a@b.com"});
-    }
-    
-    if (Companies == null || Companies == default(List<Company>))
-    {
-        Companies.Add(new Company("C"));
-    }
-    //List<Customer> Customers = Model.Customers;
+    CustomerModel aCustomerModel = new CustomerModel(new Repo());
+    aCustomerModel.Repository.GetAllCompanies();
+    aCustomerModel.Repository.GetAllCustomers();
     ViewBag.Title = "Customers";
 }
 <div class="row">
@@ -33,14 +17,23 @@
     <table width="100%">
         <thead>
             <tr>
-                <td>
+                <td align="left">
                     First Name
                 </td>
-                <td>
+                <td align="left">
                     Last Name
                 </td>
-                <td>
+                <td align="center">
                     Company Name
+                </td>
+                <td align="center">
+                    Email Address
+                </td>
+                <td align="center">
+                    Phone Number
+                </td>
+                <td align="center">
+                    Billing Address
                 </td>
                 <td></td>
                 <td align="center">
@@ -49,18 +42,34 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var customer in Customers)
+            @foreach (var customer in aCustomerModel.Customers)
             {
             <tr>
-                <td>
+                <td align="left">
                     @customer.FirstName
                 </td>
-                <td>
+                <td align="left">
                     @customer.LastName
                 </td>
-                <td>
+                <td align="center">
                     @customer.Company.Name
                 </td>
+                <td align="center">
+                    @customer.Email
+                </td>
+                <td align="center">
+                    @customer.Phone
+                </td>
+                <td align="center">
+                    @if (customer.BillingAddress == null)
+                    {
+                        customer.BillingAddress = new Customers.Domain.CustomerBillingAddress();
+                    }
+                    <div>@customer.BillingAddress.Street1</div>
+                    <div>@customer.BillingAddress.Street2</div>
+                    <div>@customer.BillingAddress.City, @customer.BillingAddress.State @customer.BillingAddress.ZipCode</div>
+                </td>
+
                 <td align="center">
                     <a href="#">Edit</a>
                 </td>

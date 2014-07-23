@@ -12,7 +12,7 @@ namespace Customers.Domain
         {
             //
         }
-        public Company(string name)
+        public Company(string name) : this()
         {
             Name = name;
         }

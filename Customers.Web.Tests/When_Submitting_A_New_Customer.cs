@@ -36,15 +36,15 @@ namespace Customers.Web.Tests
             };
 
             controller = new HomeController();
-            controller.SubmitNewCustomer(newCustomer);
+            //controller.SubmitNewCustomer(newCustomer);
 
         }
 
-        [Test]
-        public void A_Valid_Customer_Should_Be_Added_To_The_Database()
-        {
-            var testCustomer = repo.Find(new FindCustomerByFirstName(newCustomer.FirstName)).First();
-            Assert.AreEqual(newCustomer.FirstName, testCustomer.FirstName);
-        }
+        //[Test]
+        //public void A_Valid_Customer_Should_Be_Added_To_The_Database()
+        //{
+        //    var testCustomer = repo.Find(new FindCustomerByFirstName(newCustomer.FirstName)).First();
+        //    Assert.AreEqual(newCustomer.FirstName, testCustomer.FirstName);
+        //}
     }
 }

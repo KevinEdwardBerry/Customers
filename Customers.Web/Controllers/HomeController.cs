@@ -4,7 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Customers.Domain;
-using Customers.Data;
+using Customers.Web.Models;
+//using Customers.Data;
+//using Highway.Data;
+//using System.Data.Entity;
 
 namespace Customers.Web.Controllers
 {
@@ -12,7 +15,18 @@ namespace Customers.Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            var model = new CustomerModel(new Repo());
+            model.Repository.GetAllCompanies();
+            model.Repository.GetAllCustomers();
+
+            if (model.Customers.Count == 0) 
+            {
+                var customer = new Customer { FirstName = "A", LastName = "B", Company = new Company("C"), Email = "a@b.com" }; 
+                model.Customers.Add(customer);
+                model.Repository.AddCustomer(customer);
+            }
+
+            return View("Index", model);
         }
 
         public ActionResult About()
@@ -29,7 +43,7 @@ namespace Customers.Web.Controllers
             return View();
         }
 
-        public ActionResult AddCustomer()
+        public ViewResult AddCustomer()
         {
             return View("AddCustomer");
         }
@@ -39,9 +53,30 @@ namespace Customers.Web.Controllers
             return View("NewCustomerConfirmation");
         }
 
-        public ActionResult SubmitNewCustomer(Customer newCustomer)
+        [HttpPost]
+        public ActionResult SubmitNewCustomer(CustomerModel model)
         {
-            return View("NewCustomerConfirmation");
+            var customer = new Customer()
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Company = new Company(model.CompanyName),
+                Email = model.Email,
+                Phone = model.Phone
+            };
+
+            customer.BillingAddress = new CustomerBillingAddress()
+            {
+                Street1 = model.Street1,
+                Street2 = model.Street2,
+                City = model.City,
+                State = model.State,
+                ZipCode = model.Zip
+            };
+
+            model.Repository.AddCustomer(customer);
+
+            return View("NewCustomerConfirmation", model);
         }
     }
 }
