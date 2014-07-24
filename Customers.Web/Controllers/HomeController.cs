@@ -120,6 +120,7 @@ namespace Customers.Web.Controllers
                 model.City = customer.BillingAddress.City;
                 model.State = customer.BillingAddress.State;
                 model.Zip = customer.BillingAddress.ZipCode;
+                model.Id = customer.Id;
 
                 return View("EditCustomer", model);
             }
@@ -130,9 +131,38 @@ namespace Customers.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditCustomer(CustomerModel model)
+        public ActionResult SubmitEditedCustomer(CustomerModel model)
         {
-            return View("Index");
+            var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+            var mappingConfig = new MappingConfig();
+            var context = new DataContext(connectionString, mappingConfig);
+            var repo = new Repository(context);
+
+            var customers = repo.Find(new GetAllCustomers()).ToList();
+            var customer = customers.Where(c => c.Id == model.Id).First();
+
+            customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
+            customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
+
+            customer.FirstName = model.FirstName;
+            customer.LastName = model.LastName;
+            if (customer.Company.Name != model.CompanyName)
+                customer.Company = new Company(model.CompanyName);
+            customer.Email = model.Email;
+            customer.Phone = model.Phone;
+
+            customer.BillingAddress.Street1 = model.Street1;
+            customer.BillingAddress.Street2 = model.Street2;
+            customer.BillingAddress.City = model.City;
+            customer.BillingAddress.State = model.State;
+            customer.BillingAddress.ZipCode = model.Zip;
+
+            if (ModelState.IsValid)
+            {
+                repo.Context.Commit();
+            }
+
+           return View("Index");
         }
     }
 }

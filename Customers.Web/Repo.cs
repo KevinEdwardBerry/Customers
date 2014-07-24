@@ -15,7 +15,6 @@ namespace Customers.Web
         void AddCustomer(Customer customer);
         List<Customer> GetAllCustomers();
         List<Company> GetAllCompanies();
-
         void Delete(Customer customer);
     }
 

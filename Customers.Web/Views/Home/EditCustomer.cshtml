@@ -10,7 +10,7 @@
 
 <h2>Edit Customer</h2>
 
-@using (Html.BeginForm("SubmitNewCustomer", "Home"))
+@using (Html.BeginForm("SubmitEditedCustomer", "Home"))
 {
     <div class="large-3 columns">
         <label>
@@ -72,8 +72,11 @@
             <input type="text" value="@Model.Zip" name="Zip" />
         </label>
     </div>
+    <div>
+        <input type="hidden" value="@Model.Id" name="Id" />
+    </div>
     <div class="small-12 column">
-        <input type="submit" name="EditCurrentCustomer" class="small button" />
+        <input type="submit" name="SubmitEditedCustomer" class="small button" />
         <input type="reset" name="Reset" class="small button" />
         @Html.ActionLink("Cancel", "Index", null, new { @class = "small button" })
     </div>
