@@ -29,21 +29,21 @@ namespace Customers.Web.Models
         private List<Company> companies = new List<Company>();
         public List<Company> Companies { get { return companies; } set { companies = value; } }
 
-        [Required]
+        [Required(ErrorMessage="First name is required")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Last name is required")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Company name is required")]
         public string CompanyName { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Email address is required")]
+        [EmailAddress(ErrorMessage = "Must be a valid email address")]
         public string Email { get; set; }
 
-        [Required]
-        [Phone]
+        [Required(ErrorMessage = "Phone number is required")]
+        [Phone(ErrorMessage = "Must be a valid phone number")]
         public string Phone { get; set; }
 
         public string Street1 { get; set; }
