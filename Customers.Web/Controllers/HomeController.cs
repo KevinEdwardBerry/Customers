@@ -42,6 +42,11 @@ namespace Customers.Web.Controllers
             return View("NewCustomerConfirmation");
         }
 
+        public ActionResult Cancel()
+        {
+            return View("Index");
+        }
+
         [HttpPost]
         public ActionResult SubmitNewCustomer(CustomerModel model)
         {
