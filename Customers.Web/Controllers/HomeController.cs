@@ -15,18 +15,7 @@ namespace Customers.Web.Controllers
     {
         public ActionResult Index()
         {
-            var model = new CustomerModel(new Repo());
-            model.Repository.GetAllCustomers();
-            model.Repository.GetAllCompanies();
-
-            if (model.Customers.Count == 0) 
-            {
-                var customer = new Customer { FirstName = "A", LastName = "B", Company = new Company("C"), Email = "a@b.com" }; 
-                model.Customers.Add(customer);
-                model.Repository.AddCustomer(customer);
-            }
-
-            return View("Index", model);
+            return View("Index");
         }
 
         public ActionResult About()

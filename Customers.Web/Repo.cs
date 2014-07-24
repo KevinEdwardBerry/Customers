@@ -19,6 +19,7 @@ namespace Customers.Web
 
     public class FakeRepo : IRepo
     {
+        // THIS WILL NOT WORK BECAUSE IT WILL NEVER BE IN SCOPE OF TESTS
         private InMemoryDataContext context;
         private Repository repo;
 
@@ -38,7 +39,8 @@ namespace Customers.Web
         public List<Customer> GetAllCustomers()
         {
             Init();
-            return repo.Find(new FindAll<Customer>()).ToList();
+            //return Data.GetAllCustomers().ToList();
+            return repo.Find(new FindCustomerByLastName("bob")).ToList();
         }
 
         public List<Company> GetAllCompanies()

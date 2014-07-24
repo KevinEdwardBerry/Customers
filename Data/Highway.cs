@@ -50,6 +50,22 @@ namespace Customers.Data
         }
     }
 
+    public class GetAllCustomers : Query<Customer>
+    {
+        public GetAllCustomers()
+        {
+            ContextQuery = c => c.AsQueryable<Customer>().Where(e => e.LastName != "");
+        }
+    }
+    
+    public class GetAllCompanies : Query<Company>
+    {
+        public GetAllCompanies()
+        {
+            ContextQuery = c => c.AsQueryable<Company>().Where(e => e.Name != "");
+        }
+    }
+
     public class MappingConfig : IMappingConfiguration
     {
         public void ConfigureModelBuilder(DbModelBuilder modelBuilder)

@@ -12,9 +12,10 @@ namespace Customers.Web.Models
 {
     public class CustomerModel
     {
-        public CustomerModel() : this(new FakeRepo())
+        public CustomerModel() : this(new Repo())
         {
-            //
+            // Changed to non-fake repo because fake repo was being passed to the controller, and
+            // the fake repo will not work
         }
         public CustomerModel(IRepo repo)
         {

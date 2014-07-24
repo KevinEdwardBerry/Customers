@@ -1,10 +1,25 @@
-﻿@using Customers.Web.Models;
+﻿@using Customers.Data;
+@using Customers.Domain;
+@using Highway.Data;
+@using System.Data.Entity;
 
-@model CustomerModel
 @{
-    CustomerModel aCustomerModel = new CustomerModel(new Repo());
-    aCustomerModel.Repository.GetAllCompanies();
-    aCustomerModel.Repository.GetAllCustomers();
+    var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+    var mappingConfig = new MappingConfig();
+    var context = new DataContext(connectionString, mappingConfig);
+    var repo = new Repository(context);
+
+    var customers = repo.Find(new GetAllCustomers()).ToList();
+    var companies = repo.Find(new GetAllCompanies()).ToList();
+
+    if (customers.Count == 0)
+    {
+        var customer = new Customer { FirstName = "A", LastName = "B", Company = new Company("C"), Email = "a@b.com" };
+        customers.Add(customer);
+        repo.Context.Add(customer);
+        
+    }
+    
     ViewBag.Title = "Customers";
 }
 <div class="row">
@@ -14,7 +29,7 @@
 </div>
 
 <div>
-    <table width="100%">
+    <table width="100%" class="large-12 columns">
         <thead>
             <tr>
                 <td align="left">
@@ -42,7 +57,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var customer in aCustomerModel.Customers)
+            @foreach (var customer in customers)
             {
             <tr>
                 <td align="left">
