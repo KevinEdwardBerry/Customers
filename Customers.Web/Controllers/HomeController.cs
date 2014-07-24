@@ -54,10 +54,11 @@ namespace Customers.Web.Controllers
                 var repo = new Repository(context);
 
                 var customers = repo.Find(new GetAllCustomers()).ToList();
+                var customer = customers.Where(c => c.Id == id).First();
 
-                if (customers.Count > 0)
+                if (customer.Id > 0)
                 {
-                    repo.Context.Remove(customers.Where(c => c.Id == id).First());
+                    repo.Context.Remove(customer);
                     repo.Context.Commit();
                 }
             }
@@ -86,9 +87,13 @@ namespace Customers.Web.Controllers
                 ZipCode = model.Zip
             };
 
-            model.Repository.AddCustomer(customer);
+            if (ModelState.IsValid)
+            {
+                model.Repository.AddCustomer(customer);
+                return View("NewCustomerConfirmation", model);
+            }
 
-            return View("NewCustomerConfirmation", model);
+            return View("AddCustomer", model);
         }
 
         [HttpPost]
