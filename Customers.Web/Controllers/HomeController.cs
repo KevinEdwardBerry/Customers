@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using Customers.Domain;
 using Customers.Web.Models;
-//using Customers.Data;
-//using Highway.Data;
-//using System.Data.Entity;
+using Customers.Data;
+using Highway.Data;
+using System.Data.Entity;
 
 namespace Customers.Web.Controllers
 {
@@ -42,8 +42,26 @@ namespace Customers.Web.Controllers
             return View("NewCustomerConfirmation");
         }
 
-        public ActionResult Cancel()
+        //[HttpDelete]
+        //[HttpPost]
+        public ActionResult Delete(int id)
         {
+            if (id > 0)
+            {
+                var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+                var mappingConfig = new MappingConfig();
+                var context = new DataContext(connectionString, mappingConfig);
+                var repo = new Repository(context);
+
+                var customers = repo.Find(new GetAllCustomers()).ToList();
+
+                if (customers.Count > 0)
+                {
+                    repo.Context.Remove(customers.Where(c => c.Id == id).First());
+                    repo.Context.Commit();
+                }
+            }
+
             return View("Index");
         }
 
@@ -71,6 +89,12 @@ namespace Customers.Web.Controllers
             model.Repository.AddCustomer(customer);
 
             return View("NewCustomerConfirmation", model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(CustomerModel model)
+        {
+            return View("Index");
         }
     }
 }

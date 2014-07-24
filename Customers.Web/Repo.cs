@@ -15,6 +15,8 @@ namespace Customers.Web
         void AddCustomer(Customer customer);
         List<Customer> GetAllCustomers();
         List<Company> GetAllCompanies();
+
+        void Delete(Customer customer);
     }
 
     public class FakeRepo : IRepo
@@ -47,6 +49,13 @@ namespace Customers.Web
         {
             Init();
             return repo.Find(new FindAll<Company>()).ToList();
+        }
+
+        public void Delete(Customer customer)
+        {
+            Init();
+            repo.Context.Remove(customer);
+            repo.Context.Commit();
         }
     }
 
@@ -82,6 +91,13 @@ namespace Customers.Web
         {
             Init();
             return repo.Find(new FindAll<Company>()).ToList();
+        }
+
+        public void Delete(Customer customer)
+        {
+            Init();
+            repo.Context.Remove(customer);
+            repo.Context.Commit();
         }
     }
 }

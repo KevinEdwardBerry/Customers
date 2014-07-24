@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Customers.Web.Controllers;
+using Customers.Web.Models;
 
 namespace Customers.Web.Tests
 {
@@ -31,6 +32,24 @@ namespace Customers.Web.Tests
             var controller = new HomeController();
             var result = controller.NewCustomerConfirmation() as ViewResult;
             Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void When_Deleting_A_Customer_From_The_Database_You_Should_Be_Returned_To_The_Index()
+        {
+            var controller = new HomeController();
+            var result = controller.Delete(0) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Index", result.ViewName);
+        }
+
+        [Test]
+        public void When_Editing_A_Customer_From_The_Database_You_Should_Be_Returned_To_The_Index()
+        {
+            var controller = new HomeController();
+            var result = controller.Edit(new CustomerModel()) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Index", result.ViewName);
         }
     }
 }
