@@ -1,10 +1,12 @@
-﻿@using Customers.Data;
+﻿
+@using Customers.Data;
 @using Customers.Domain;
 @using Highway.Data;
 @using System.Data.Entity;
 @using Customers.Web.Models;
 
 @model CustomerModel
+
 @{
     var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
     var mappingConfig = new MappingConfig();
@@ -13,6 +15,11 @@
 
     var customers = repo.Find(new GetAllCustomers()).ToList();
     var companies = repo.Find(new GetAllCompanies()).ToList();
+    
+    foreach(var customer in customers)
+    {
+        customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
+    }
 
     if (customers.Count == 0)
     {
@@ -88,10 +95,10 @@
                 </td>
 
                 <td align="center">
-                    <a href="#">Edit</a>
+                    @Html.ActionLink("Edit", "EditCurrentCustomer", new { Model, customer.Id })
                 </td>
                 <td align="center">
-                    @Html.ActionLink("Delete", "Delete", new { Model, customer.Id})
+                    @Html.ActionLink("Delete", "DeleteCurrentCustomer", new { customer.Id })
                 </td>
             </tr>
             }

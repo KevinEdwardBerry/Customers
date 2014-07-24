@@ -42,9 +42,7 @@ namespace Customers.Web.Controllers
             return View("NewCustomerConfirmation");
         }
 
-        //[HttpDelete]
-        //[HttpPost]
-        public ActionResult Delete(int id)
+        public ActionResult DeleteCurrentCustomer(int id)
         {
             if (id > 0)
             {
@@ -96,8 +94,43 @@ namespace Customers.Web.Controllers
             return View("AddCustomer", model);
         }
 
+        public ActionResult EditCurrentCustomer(int id)
+        {
+            if (id > 0)
+            {
+                var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+                var mappingConfig = new MappingConfig();
+                var context = new DataContext(connectionString, mappingConfig);
+                var repo = new Repository(context);
+
+                var customers = repo.Find(new GetAllCustomers()).ToList();
+                var customer = customers.Where(c => c.Id == id).First();
+
+                customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
+                customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
+
+                var model = new CustomerModel(new Repo());
+                model.FirstName = customer.FirstName;
+                model.LastName = customer.LastName;
+                model.CompanyName = customer.Company.Name;
+                model.Email = customer.Email;
+                model.Phone = customer.Phone;
+                model.Street1 = customer.BillingAddress.Street1;
+                model.Street2 = customer.BillingAddress.Street2;
+                model.City = customer.BillingAddress.City;
+                model.State = customer.BillingAddress.State;
+                model.Zip = customer.BillingAddress.ZipCode;
+
+                return View("EditCustomer", model);
+            }
+            else
+            {
+                return View("Index");
+            }
+        }
+
         [HttpPost]
-        public ActionResult Edit(CustomerModel model)
+        public ActionResult EditCustomer(CustomerModel model)
         {
             return View("Index");
         }

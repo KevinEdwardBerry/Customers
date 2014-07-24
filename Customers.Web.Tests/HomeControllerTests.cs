@@ -38,7 +38,7 @@ namespace Customers.Web.Tests
         public void When_Deleting_A_Customer_From_The_Database_You_Should_Be_Returned_To_The_Index()
         {
             var controller = new HomeController();
-            var result = controller.Delete(0) as ViewResult;
+            var result = controller.DeleteCurrentCustomer(0) as ViewResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.ViewName);
         }
@@ -47,7 +47,7 @@ namespace Customers.Web.Tests
         public void When_Editing_A_Customer_From_The_Database_You_Should_Be_Returned_To_The_Index()
         {
             var controller = new HomeController();
-            var result = controller.Edit(new CustomerModel()) as ViewResult;
+            var result = controller.EditCurrentCustomer(0) as ViewResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.ViewName);
         }

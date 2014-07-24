@@ -386,6 +386,7 @@
       <BrowseToURL>~/Home/AddCustomer</BrowseToURL>
     </Content>
     <Content Include="Views\Home\NewCustomerConfirmation.cshtml" />
+    <Content Include="Views\Home\EditCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

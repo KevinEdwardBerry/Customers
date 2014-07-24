@@ -66,6 +66,22 @@ namespace Customers.Data
         }
     }
 
+    public class GetCompanyById : Query<Company>
+    {
+        public GetCompanyById(int id)
+        {
+            ContextQuery = c => c.AsQueryable<Company>().Where(e => e.Id == id);
+        }
+    }
+
+    public class GetBillingAddressById :Query<CustomerBillingAddress>
+    {
+        public GetBillingAddressById(int id)
+        {
+            ContextQuery = c => c.AsQueryable<CustomerBillingAddress>().Where(e => e.Id == id);
+        }
+    }
+
     public class MappingConfig : IMappingConfiguration
     {
         public void ConfigureModelBuilder(DbModelBuilder modelBuilder)

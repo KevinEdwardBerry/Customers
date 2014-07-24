@@ -1,0 +1,80 @@
+﻿@using Customers.Web.Models;
+
+
+@model CustomerModel
+
+@{
+    ViewBag.Title = "Edit Customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Customer</h2>
+
+@using (Html.BeginForm("SubmitNewCustomer", "Home"))
+{
+    <div class="large-3 columns">
+        <label>
+            First Name:
+            <input type="text" value="@Model.FirstName" name="FirstName" />
+        </label>
+    </div>
+    <div class="large-3 columns">
+        <label>
+            Last Name:
+            <input type="text" value="@Model.LastName" name="LastName" />
+        </label>
+    </div>
+    <div class="large-3 columns">
+        <label>
+            Company Name:
+            <input type="text" value="Everything is Awesome" name="CompanyName" />
+        </label>
+    </div>
+    <div class="large-3 columns">
+        <label>
+            Email:
+            <input type="text" value="@Model.Email" name="Email" />
+        </label>
+    </div>
+    <div class="large-3 columns">
+        <label>
+            Phone:
+            <input type="text" value="@Model.Phone" name="Phone" />
+        </label>
+    </div>
+    <div class="large-3 columns">
+        <label>
+            Street 1:
+            <input type="text" name="Street1" />
+        </label>
+    </div>
+    <div class="large-3 columns">
+        <label>
+            Street 2:
+            <input type="text" name="Street2" />
+        </label>
+    </div>
+    <div class="large-3 columns">
+        <label>
+            City:
+            <input type="text" name="City" />
+        </label>
+    </div>
+    <div class="large-3 columns">
+        <label>
+            State:
+            <input type="text" name="State" />
+        </label>
+    </div>
+    <div class="large-3 columns">
+        <label>
+            Zip Code:
+            <input type="text" name="Zip" />
+        </label>
+    </div>
+    <div class="small-12 column">
+        <input type="submit" name="EditCurrentCustomer" class="small button" />
+        <input type="reset" name="Reset" class="small button" />
+        @Html.ActionLink("Cancel", "Index", null, new { @class = "small button" })
+    </div>
+}
