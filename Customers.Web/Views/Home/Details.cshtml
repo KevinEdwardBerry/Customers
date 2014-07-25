@@ -1,0 +1,62 @@
+﻿@using Customers.Web.Models
+
+@model CustomerModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.FirstName @Model.LastName Details</h2>
+
+<table class="small-1">
+    <tr>
+        <td>
+            Company Name: @Model.CompanyName
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Email Address: @Model.Email
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Phone Number: @Model.Phone
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Street 1: @Model.Street1
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Street 2: @Model.Street2
+        </td>
+    </tr>
+    <tr>
+        <td>
+            City: @Model.City
+        </td>
+    </tr>
+    <tr>
+        <td>
+            State: @Model.State
+        </td>
+    <tr>
+        <td>
+            Zip Code: @Model.Zip
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            @Html.ActionLink("Edit", "EditCurrentCustomer", new { Model, Model.Id })
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            @Html.ActionLink("Delete", "DeleteCurrentCustomer", new { Model.Id })
+        </td>
+    </tr>
+</table>

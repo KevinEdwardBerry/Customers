@@ -135,6 +135,11 @@ namespace Customers.Web.Controllers
             }
         }
 
+        public ActionResult ViewDetails(CustomerModel model)
+        {
+            return View("Details", model);
+        }
+
         [HttpPost]
         public ActionResult SubmitEditedCustomer(CustomerModel model)
         {

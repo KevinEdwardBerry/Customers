@@ -1,5 +1,4 @@
-﻿
-@using Customers.Data;
+﻿@using Customers.Data;
 @using Customers.Domain;
 @using Highway.Data;
 @using System.Data.Entity;
@@ -15,8 +14,8 @@
 
     var customers = repo.Find(new GetAllCustomers()).ToList();
     var companies = repo.Find(new GetAllCompanies()).ToList();
-    
-    foreach(var customer in customers)
+
+    foreach (var customer in customers)
     {
         customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
     }
@@ -25,7 +24,7 @@
     {
         var customer = new Customer { FirstName = "A", LastName = "B", Company = new Company("C"), Email = "a@b.com" };
     }
-    
+
     ViewBag.Title = "Customers";
 }
 <div class="row">
@@ -35,7 +34,78 @@
 </div>
 
 <div>
-    <table width="100%" class="large-12 columns">
+    <center>
+        <table width="100%" class="show-for-medium-up">
+            <thead>
+                <tr>
+                    <td align="left">
+                        First Name
+                    </td>
+                    <td align="left">
+                        Last Name
+                    </td>
+                    <td align="center">
+                        Company Name
+                    </td>
+                    <td align="center">
+                        Email Address
+                    </td>
+                    <td align="center">
+                        Phone Number
+                    </td>
+                    <td align="center">
+                        Billing Address
+                    </td>
+                    <td></td>
+                    <td align="center">
+                        @Html.ActionLink("Add Customer", "AddCustomer", null, new { @class = "small button" })
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in customers)
+                {
+                    <tr>
+                        <td align="left">
+                            @customer.FirstName
+                        </td>
+                        <td align="left">
+                            @customer.LastName
+                        </td>
+                        <td align="center">
+                            @customer.Company.Name
+                        </td>
+                        <td align="center">
+                            @customer.Email
+                        </td>
+                        <td align="center">
+                            @customer.Phone
+                        </td>
+                        <td align="center">
+                            @if (customer.BillingAddress == null)
+                            {
+                                customer.BillingAddress = new Customers.Domain.CustomerBillingAddress();
+                            }
+                            <div>@customer.BillingAddress.Street1</div>
+                            <div>@customer.BillingAddress.Street2</div>
+                            <div>@customer.BillingAddress.City, @customer.BillingAddress.State @customer.BillingAddress.ZipCode</div>
+                        </td>
+
+                        <td align="center">
+                            @Html.ActionLink("Edit", "EditCurrentCustomer", new { Model, customer.Id })
+                        </td>
+                        <td align="center">
+                            @Html.ActionLink("Delete", "DeleteCurrentCustomer", new { customer.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </center>
+
+    <!-- mobile view -->
+    <table class="show-for-small-only">
         <thead>
             <tr>
                 <td align="left">
@@ -43,18 +113,6 @@
                 </td>
                 <td align="left">
                     Last Name
-                </td>
-                <td align="center">
-                    Company Name
-                </td>
-                <td align="center">
-                    Email Address
-                </td>
-                <td align="center">
-                    Phone Number
-                </td>
-                <td align="center">
-                    Billing Address
                 </td>
                 <td></td>
                 <td align="center">
@@ -65,41 +123,19 @@
         <tbody>
             @foreach (var customer in customers)
             {
-            <tr>
-                <td align="left">
-                    @customer.FirstName
-                </td>
-                <td align="left">
-                    @customer.LastName
-                </td>
-                <td align="center">
-                    @customer.Company.Name
-                </td>
-                <td align="center">
-                    @customer.Email
-                </td>
-                <td align="center">
-                    @customer.Phone
-                </td>
-                <td align="center">
-                    @if (customer.BillingAddress == null)
-                    {
-                        customer.BillingAddress = new Customers.Domain.CustomerBillingAddress();
-                    }
-                    <div>@customer.BillingAddress.Street1</div>
-                    <div>@customer.BillingAddress.Street2</div>
-                    <div>@customer.BillingAddress.City, @customer.BillingAddress.State @customer.BillingAddress.ZipCode</div>
-                </td>
+                <tr>
+                    <td align="left">
+                        @customer.FirstName
+                    </td>
+                    <td align="left">
+                        @customer.LastName
+                    </td>
 
-                <td align="center">
-                    @Html.ActionLink("Edit", "EditCurrentCustomer", new { Model, customer.Id })
-                </td>
-                <td align="center">
-                    @Html.ActionLink("Delete", "DeleteCurrentCustomer", new { customer.Id })
-                </td>
-            </tr>
+                    <td align="center">
+                        @Html.ActionLink("View Details", "ViewDetails", new { Model, customer.Id })
+                    </td>
+                </tr>
             }
         </tbody>
-
     </table>
 </div>

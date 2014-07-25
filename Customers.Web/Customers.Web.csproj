@@ -387,6 +387,7 @@
     </Content>
     <Content Include="Views\Home\NewCustomerConfirmation.cshtml" />
     <Content Include="Views\Home\EditCustomer.cshtml" />
+    <Content Include="Views\Home\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
