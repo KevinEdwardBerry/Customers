@@ -24,6 +24,7 @@
                 {
                     id = "logoutForm", @*@class = "right"*@ }))
                 {
+                    @Html.AntiForgeryToken()
                     <ul class="off-canvas-list">
                         <li>
                             <label class="first">NAVIGATION</label>
@@ -53,13 +54,13 @@
 
                     <section class="top-bar-section">
                         <ul class="right">
-                            <li class="divider"></li>
-                            <li class="has-dropdown">
+                            @*<li class="divider"></li>*@
+                            <li @*class="has-dropdown"*@>
                                 <a href="/Home/" class="">Home</a>
-                                <ul class="dropdown">
+                                @*<ul class="dropdown">
                                     <li><a href="#">Overview</a></li>
                                     <li><a href="#">Contact</a></li>
-                                </ul>
+                                </ul>*@
                             </li>
                             @Html.Partial("_LoginPartial")
                         </ul>
