@@ -7,22 +7,25 @@
 @model CustomerModel
 
 @{
-    var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+    var connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
     var mappingConfig = new MappingConfig();
     var context = new DataContext(connectionString, mappingConfig);
     var repo = new Repository(context);
 
     var customers = repo.Find(new GetAllCustomers()).ToList();
+
+    //if (customers.Count == 0)
+    //{
+    //    var customer = new Customer { FirstName = "A", LastName = "B", Company = new Company("C"), Email = "a@b.com" };
+    //    repo.Context.Add(customer);
+    //    repo.Context.Commit();
+    //}
+    
     var companies = repo.Find(new GetAllCompanies()).ToList();
 
     foreach (var customer in customers)
     {
         customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
-    }
-
-    if (customers.Count == 0)
-    {
-        var customer = new Customer { FirstName = "A", LastName = "B", Company = new Company("C"), Email = "a@b.com" };
     }
 
     ViewBag.Title = "Customers";

@@ -47,7 +47,7 @@ namespace Customers.Web.Controllers
         {
             if (id > 0)
             {
-                var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+                var connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
                 var mappingConfig = new MappingConfig();
                 var context = new DataContext(connectionString, mappingConfig);
                 var repo = new Repository(context);
@@ -103,7 +103,7 @@ namespace Customers.Web.Controllers
         {
             if (id > 0)
             {
-                var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+                var connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
                 var mappingConfig = new MappingConfig();
                 var context = new DataContext(connectionString, mappingConfig);
                 var repo = new Repository(context);
@@ -143,7 +143,7 @@ namespace Customers.Web.Controllers
         [HttpPost]
         public ActionResult SubmitEditedCustomer(CustomerModel model)
         {
-            var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+            var connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
             var mappingConfig = new MappingConfig();
             var context = new DataContext(connectionString, mappingConfig);
             var repo = new Repository(context);

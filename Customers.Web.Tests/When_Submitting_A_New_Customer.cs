@@ -19,12 +19,20 @@ namespace Customers.Web.Tests
         private InMemoryDataContext context;
         private Repository repo;
         private HomeController controller;
+        //private MappingConfig mappingConfig;
+        //private string connectionString;
+        //private DataContext context;
 
         [SetUp]
         public void Setup()
         {
             context = new InMemoryDataContext();
             repo = new Repository(context);
+
+            //connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
+            //mappingConfig = new MappingConfig();
+            //context = new DataContext(connectionString, mappingConfig);
+            //repo = new Repository(context);
 
             newCustomer = new Customer()
             {

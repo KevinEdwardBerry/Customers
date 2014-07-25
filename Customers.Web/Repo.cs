@@ -67,7 +67,7 @@ namespace Customers.Web
 
         private void Init()
         {
-            connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+            connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
             mappingConfig = new MappingConfig();
             context = new DataContext(connectionString, mappingConfig);
             repo = new Repository(context);
