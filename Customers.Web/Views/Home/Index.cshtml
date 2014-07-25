@@ -24,9 +24,6 @@
     if (customers.Count == 0)
     {
         var customer = new Customer { FirstName = "A", LastName = "B", Company = new Company("C"), Email = "a@b.com" };
-        customers.Add(customer);
-        repo.Context.Add(customer);
-        
     }
     
     ViewBag.Title = "Customers";
