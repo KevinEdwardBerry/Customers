@@ -43,6 +43,7 @@ namespace Customers.Web.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Phone number is required")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
         [Phone(ErrorMessage = "Must be a valid phone number")]
         public string Phone { get; set; }
 

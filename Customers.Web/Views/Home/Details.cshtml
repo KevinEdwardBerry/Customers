@@ -1,52 +1,66 @@
 ﻿@using Customers.Web.Models
+@using Highway.Data;
+@using System.Data.Entity;
+@using Customers.Data;
 
 @model CustomerModel
 
 @{
+    var connectionString = "Server=tcp:s4lin082lz.database.windows.net,1433;Database=customers_new_db;User ID=kevin@s4lin082lz;Password=Sup3erS3cureP4ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+    var mappingConfig = new MappingConfig();
+    var context = new DataContext(connectionString, mappingConfig);
+    var repo = new Repository(context);
+
+    var customers = repo.Find(new GetAllCustomers()).ToList();
+    var customer = customers.Where(c => c.Id == @Model.Id).First();
+
+    customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
+    customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
+    
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>@Model.FirstName @Model.LastName Details</h2>
 
-<table width="100%" class="small-1">
+<table width="100%" class="small-2">
     <tr>
         <td>
-            Company Name: @Model.CompanyName
+            Company Name: @customer.Company.Name
         </td>
     </tr>
     <tr>
         <td>
-            Email Address: @Model.Email
+            Email Address: @customer.Email
         </td>
     </tr>
     <tr>
         <td>
-            Phone Number: @Model.Phone
+            Phone Number: @customer.Phone
         </td>
     </tr>
     <tr>
         <td>
-            Street 1: @Model.Street1
+            Street 1: @customer.BillingAddress.Street1
         </td>
     </tr>
     <tr>
         <td>
-            Street 2: @Model.Street2
+            Street 2: @customer.BillingAddress.Street2
         </td>
     </tr>
     <tr>
         <td>
-            City: @Model.City
+            City: @customer.BillingAddress.City
         </td>
     </tr>
     <tr>
         <td>
-            State: @Model.State
+            State: @customer.BillingAddress.State
         </td>
     <tr>
         <td>
-            Zip Code: @Model.Zip
+            Zip Code: @customer.BillingAddress.ZipCode
         </td>
     </tr>
     <tr>
