@@ -9,7 +9,7 @@
 
 <h2>@Model.FirstName @Model.LastName Details</h2>
 
-<table class="small-1">
+<table width="100%" class="small-1">
     <tr>
         <td>
             Company Name: @Model.CompanyName
@@ -60,3 +60,5 @@
         </td>
     </tr>
 </table>
+
+<p>@Html.ActionLink("<< Back", "Index", null, new { @class = "tiny button" } )</p>
