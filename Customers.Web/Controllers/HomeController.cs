@@ -77,6 +77,15 @@ namespace Customers.Web.Controllers
                 Phone = model.Phone
             };
 
+            if (customer.BillingAddress == null)
+            {
+                customer.BillingAddress.Street1 = " ";
+                customer.BillingAddress.Street2 = "";
+                customer.BillingAddress.City = " ";
+                customer.BillingAddress.State = "";
+                customer.BillingAddress.ZipCode = "";
+            }
+
             customer.BillingAddress = new CustomerBillingAddress()
             {
                 Street1 = model.Street1,

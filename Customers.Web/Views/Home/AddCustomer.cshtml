@@ -9,6 +9,7 @@
 
 @using (Html.BeginForm("SubmitNewCustomer", "Home"))
 {
+    @Html.ValidationSummary(false)
     <div class="large-3 columns">
         <label>
             First Name:
