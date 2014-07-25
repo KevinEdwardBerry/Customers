@@ -95,7 +95,7 @@
                             @Html.ActionLink("Edit", "EditCurrentCustomer", new { Model, customer.Id })
                         </td>
                         <td align="center">
-                            @Html.ActionLink("Delete", "DeleteCurrentCustomer", new { customer.Id })
+                            @Html.ActionLink("Delete", "DeleteCurrentCustomer", new { customer.Id }, new { @style = "color: red" })
                         </td>
                     </tr>
                 }
