@@ -11,6 +11,7 @@ using System.Data.Entity;
 
 namespace Customers.Web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
