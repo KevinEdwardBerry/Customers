@@ -54,9 +54,13 @@ namespace Customers.Web.Controllers
 
                 var customers = repo.Find(new GetAllCustomers()).ToList();
                 var customer = customers.Where(c => c.Id == id).First();
+                customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
+                customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
 
                 if (customer.Id > 0)
                 {
+                    repo.Context.Remove(customer.BillingAddress);
+                    repo.Context.Remove(customer.Company);
                     repo.Context.Remove(customer);
                     repo.Context.Commit();
                 }
