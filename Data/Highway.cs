@@ -50,11 +50,19 @@ namespace Customers.Data
         }
     }
 
+    public class GetCustomerById : Query<Customer>
+    {
+        public GetCustomerById(int id)
+        {
+            ContextQuery = c => c.AsQueryable<Customer>().Where(e => e.Id == id);
+        }
+    }
+
     public class GetAllCustomers : Query<Customer>
     {
         public GetAllCustomers()
         {
-            ContextQuery = c => c.AsQueryable<Customer>().Where(e => e.LastName != "");
+            ContextQuery = c => c.AsQueryable<Customer>().Where(e => e.Id > 0);
         }
     }
     
@@ -62,7 +70,7 @@ namespace Customers.Data
     {
         public GetAllCompanies()
         {
-            ContextQuery = c => c.AsQueryable<Company>().Where(e => e.Name != "");
+            ContextQuery = c => c.AsQueryable<Company>().Where(e => e.Id > 0);
         }
     }
 

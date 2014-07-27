@@ -35,7 +35,7 @@ namespace Customers.Web.Controllers
 
         public ViewResult AddCustomer()
         {
-            return View("AddCustomer", new CustomerModel(new Repo()));
+            return View("AddCustomer", new CustomerModel());
         }
 
         public ViewResult NewCustomerConfirmation()
@@ -92,7 +92,14 @@ namespace Customers.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                model.Repository.AddCustomer(customer);
+                var connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
+                var mappingConfig = new MappingConfig();
+                var context = new DataContext(connectionString, mappingConfig);
+                var repo = new Repository(context);
+
+                repo.Context.Add(customer);
+                repo.Context.Commit();
+
                 return View("NewCustomerConfirmation", model);
             }
 
@@ -114,7 +121,7 @@ namespace Customers.Web.Controllers
                 customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
                 customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
 
-                var model = new CustomerModel(new Repo());
+                var model = new CustomerModel();
                 model.FirstName = customer.FirstName;
                 model.LastName = customer.LastName;
                 model.CompanyName = customer.Company.Name;

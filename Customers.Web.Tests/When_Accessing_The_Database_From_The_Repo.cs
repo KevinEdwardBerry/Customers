@@ -15,7 +15,6 @@ namespace Customers.Web.Tests
     [TestFixture]
     public class When_Accessing_The_Database_From_The_Repo
     {
-        private IRepo repo;
         private Customer customer1;
         private Customer customer2;
         private Customer customer3;
@@ -25,15 +24,15 @@ namespace Customers.Web.Tests
         [SetUp]
         public void Setup()
         {
-            repo = new FakeRepo();
             context = new InMemoryDataContext();
             hwyRepo = new Repository(context);
 
             customer1 = new Customer()
             {
+                Id = 1,
                 FirstName = "ajim",
                 LastName = "bob",
-                Company = new Company("aCompany"),
+                Company = new Company("aCompany") { Id = 1 },
                 Email = "ajim.bob@gmail.com",
                 Phone = "(555)123-1142",
                 BillingAddress = new CustomerBillingAddress()
@@ -47,9 +46,10 @@ namespace Customers.Web.Tests
 
             customer2 = new Customer()
             {
+                Id = 2,
                 FirstName = "bjim",
                 LastName = "bob",
-                Company = new Company("bCompany"),
+                Company = new Company("bCompany") { Id = 2 },
                 Email = "bjim.bob@gmail.com",
                 Phone = "(555)123-1242",
                 BillingAddress = new CustomerBillingAddress()
@@ -63,9 +63,10 @@ namespace Customers.Web.Tests
 
             customer3 = new Customer()
             {
+                Id = 3,
                 FirstName = "cjim",
                 LastName = "bob",
-                Company = new Company("cCompany"),
+                Company = new Company("cCompany") { Id = 3 },
                 Email = "cjim.bob@gmail.com",
                 Phone = "(555)123-1342",
                 BillingAddress = new CustomerBillingAddress()
@@ -77,9 +78,6 @@ namespace Customers.Web.Tests
                 }
             };
 
-            repo.AddCustomer(customer1);
-            repo.AddCustomer(customer2);
-            repo.AddCustomer(customer3);
             hwyRepo.Context.Add(customer1);
             hwyRepo.Context.Add(customer2);
             hwyRepo.Context.Add(customer3);
@@ -89,8 +87,8 @@ namespace Customers.Web.Tests
         [Test]
         public void One_Should_Be_Able_To_Get_A_List_Of_All_The_Customers()
         {
-            //var allCustomers = repo.GetAllCustomers();
-            var allCustomers = hwyRepo.Find(new FindCustomerByLastName("bob")).ToList();
+            var allCustomers = hwyRepo.Find(new GetAllCustomers()).ToList();
+            //var allCustomers = hwyRepo.Find(new FindCustomerByLastName("bob")).ToList();
             Assert.AreEqual(3, allCustomers.Count);
         }
 
