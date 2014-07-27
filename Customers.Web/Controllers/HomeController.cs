@@ -52,8 +52,8 @@ namespace Customers.Web.Controllers
                 var context = new DataContext(connectionString, mappingConfig);
                 var repo = new Repository(context);
 
-                var customers = repo.Find(new GetAllCustomers()).ToList();
-                var customer = customers.Where(c => c.Id == id).First();
+                var customer = repo.Find(new GetCustomerById(id)).First();
+
                 customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
                 customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
 
@@ -115,8 +115,7 @@ namespace Customers.Web.Controllers
                 var context = new DataContext(connectionString, mappingConfig);
                 var repo = new Repository(context);
 
-                var customers = repo.Find(new GetAllCustomers()).ToList();
-                var customer = customers.Where(c => c.Id == id).First();
+                var customer = repo.Find(new GetCustomerById(id)).First();
 
                 customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
                 customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
@@ -155,8 +154,7 @@ namespace Customers.Web.Controllers
             var context = new DataContext(connectionString, mappingConfig);
             var repo = new Repository(context);
 
-            var customers = repo.Find(new GetAllCustomers()).ToList();
-            var customer = customers.Where(c => c.Id == model.Id).First();
+            var customer = repo.Find(new GetCustomerById(model.Id)).First();
 
             customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
             customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
