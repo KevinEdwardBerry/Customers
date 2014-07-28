@@ -28,6 +28,7 @@ namespace Customers.Web.Tests
             // All tests will fail if the Create does not work
             var myCustomer = new Customer
             {
+                Id = 1,
                 FirstName = "Kevin",
                 LastName = "Berry",
                 Company = new Company("Improving Enterprises"),
@@ -109,6 +110,13 @@ namespace Customers.Web.Tests
 
             var allCustomers = repo.Find(new FindAll<Customer>());
             Assert.AreEqual(2, allCustomers.Count());
+        }
+        
+        [Test]
+        public void You_Should_Be_Able_To_Find_The_Customer_By_Their_Id()
+        {
+            customerK = repo.Find(new GetCustomerById(1)).First();
+            Assert.AreEqual(1, customerK.Id);
         }
     }
 }
