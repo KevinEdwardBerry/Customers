@@ -36,6 +36,9 @@ namespace Customers.Web.Models
         [Phone(ErrorMessage = "Must be a valid phone number")]
         public string Phone { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:###-###-####}")]
+        public long PhoneNumber { get; set; }
+
         public int Id { get; set; }
 
         public string Street1 { get; set; }

@@ -82,8 +82,12 @@
                             @customer.Email
                         </td>
                         <td align="center">
-                            @customer.Phone
-                        </td>
+                            @{
+                                var digitsOnly = new System.Text.RegularExpressions.Regex(@"[^\d]");
+                                var phone = digitsOnly.Replace(customer.Phone, "");
+                            }
+                            @String.Format("{0:###-###-####}", Convert.ToInt64(phone))
+                            </td>
                         <td align="center">
                             @if (customer.BillingAddress == null)
                             {
