@@ -1,14 +1,8 @@
-﻿using Highway.Data;
-using Highway.Data.Contexts;
-using System.Data.Entity;
-using Autofac;
+﻿using Autofac;
 using Autofac.Integration.Mvc;
 using Customers.Domain;
-using Customers.Web.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using Highway.Data;
+using Highway.Data.Contexts;
 using System.Web.Mvc;
 
 namespace Customers.Web.App_Start
