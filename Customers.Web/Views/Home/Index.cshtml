@@ -13,13 +13,6 @@
     var repo = new Repository(context);
 
     var customers = repo.Find(new GetAllCustomers()).ToList();
-
-    //if (customers.Count == 0)
-    //{
-    //    var customer = new Customer { FirstName = "A", LastName = "B", Company = new Company("C"), Email = "a@b.com" };
-    //    repo.Context.Add(customer);
-    //    repo.Context.Commit();
-    //}
     
     var companies = repo.Find(new GetAllCompanies()).ToList();
 
