@@ -106,18 +106,20 @@ namespace Customers.Web.Controllers
                 customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
                 customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
 
-                var model = new CustomerModel();
-                model.FirstName = customer.FirstName;
-                model.LastName = customer.LastName;
-                model.CompanyName = customer.Company.Name;
-                model.Email = customer.Email;
-                model.Phone = customer.Phone;
-                model.Street1 = customer.BillingAddress.Street1;
-                model.Street2 = customer.BillingAddress.Street2;
-                model.City = customer.BillingAddress.City;
-                model.State = customer.BillingAddress.State;
-                model.Zip = customer.BillingAddress.ZipCode;
-                model.Id = customer.Id;
+                var model = new CustomerModel()
+                {
+                    LastName = customer.LastName,
+                    CompanyName = customer.Company.Name,
+                    Email = customer.Email,
+                    FirstName = customer.FirstName,
+                    Phone = customer.Phone,
+                    Street1 = customer.BillingAddress.Street1,
+                    Street2 = customer.BillingAddress.Street2,
+                    City = customer.BillingAddress.City,
+                    State = customer.BillingAddress.State,
+                    Zip = customer.BillingAddress.ZipCode,
+                    Id = customer.Id,
+                };
 
                 return View("EditCustomer", model);
             }
@@ -149,6 +151,7 @@ namespace Customers.Web.Controllers
             customer.LastName = model.LastName;
             if (customer.Company.Name != model.CompanyName)
                 customer.Company = new Company(model.CompanyName);
+
             customer.Email = model.Email;
             customer.Phone = model.Phone;
 

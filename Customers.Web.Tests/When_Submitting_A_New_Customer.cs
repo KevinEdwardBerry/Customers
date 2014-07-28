@@ -35,15 +35,18 @@ namespace Customers.Web.Tests
                 Phone = "(555)123-4567"
             };
 
+            repo.Context.Add(newCustomer);
+            repo.Context.Commit();
+
             controller = new HomeController();
 
         }
 
-        //[Test]
-        //public void A_Valid_Customer_Should_Be_Added_To_The_Database()
-        //{
-        //    var testCustomer = repo.Find(new FindCustomerByFirstName(newCustomer.FirstName)).First();
-        //    Assert.AreEqual(newCustomer.FirstName, testCustomer.FirstName);
-        //}
+        [Test]
+        public void A_Valid_Customer_Should_Be_Added_To_The_Database()
+        {
+            var testCustomer = repo.Find(new FindCustomerByFirstName(newCustomer.FirstName)).First();
+            Assert.AreEqual(newCustomer.FirstName, testCustomer.FirstName);
+        }
     }
 }
