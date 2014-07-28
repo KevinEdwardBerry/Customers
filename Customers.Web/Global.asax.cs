@@ -1,4 +1,4 @@
-﻿using Customers.Web.App_Start;
+﻿//using Customers.Web.App_Start;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace Customers.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            ResolverConfig.Register();
+            //ResolverConfig.Register();
         }
     }
 }
