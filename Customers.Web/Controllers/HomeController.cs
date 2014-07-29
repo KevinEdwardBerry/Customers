@@ -14,6 +14,13 @@ namespace Customers.Web.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        IRepository _repo;
+
+        public HomeController(IRepository repo)
+        {
+            _repo = repo;
+        }
+
         public ActionResult Index(int orderBy = 2)
         {
             ViewBag.OrderBy = orderBy;
@@ -34,22 +41,17 @@ namespace Customers.Web.Controllers
         {
             if (id > 0)
             {
-                var connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
-                var mappingConfig = new MappingConfig();
-                var context = new DataContext(connectionString, mappingConfig);
-                var repo = new Repository(context);
+                var customer = _repo.Find(new GetCustomerById(id)).First();
 
-                var customer = repo.Find(new GetCustomerById(id)).First();
-
-                customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
-                customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
+                customer.BillingAddress = _repo.Find(new GetBillingAddressById(customer.Id)).First();
+                customer.Company = _repo.Find(new GetCompanyById(customer.Id)).First();
 
                 if (customer.Id > 0)
                 {
-                    repo.Context.Remove(customer.BillingAddress);
-                    repo.Context.Remove(customer.Company);
-                    repo.Context.Remove(customer);
-                    repo.Context.Commit();
+                    _repo.Context.Remove(customer.BillingAddress);
+                    _repo.Context.Remove(customer.Company);
+                    _repo.Context.Remove(customer);
+                    _repo.Context.Commit();
                 }
             }
 
@@ -79,13 +81,8 @@ namespace Customers.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                var connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
-                var mappingConfig = new MappingConfig();
-                var context = new DataContext(connectionString, mappingConfig);
-                var repo = new Repository(context);
-
-                repo.Context.Add(customer);
-                repo.Context.Commit();
+                _repo.Context.Add(customer);
+                _repo.Context.Commit();
 
                 return View("NewCustomerConfirmation", model);
             }
@@ -97,15 +94,10 @@ namespace Customers.Web.Controllers
         {
             if (id > 0)
             {
-                var connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
-                var mappingConfig = new MappingConfig();
-                var context = new DataContext(connectionString, mappingConfig);
-                var repo = new Repository(context);
+                var customer = _repo.Find(new GetCustomerById(id)).First();
 
-                var customer = repo.Find(new GetCustomerById(id)).First();
-
-                customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
-                customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
+                customer.Company = _repo.Find(new GetCompanyById(customer.Id)).First();
+                customer.BillingAddress = _repo.Find(new GetBillingAddressById(customer.Id)).First();
 
                 var model = new CustomerModel()
                 {
@@ -138,15 +130,10 @@ namespace Customers.Web.Controllers
         [HttpPost]
         public ActionResult SubmitEditedCustomer(CustomerModel model)
         {
-            var connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
-            var mappingConfig = new MappingConfig();
-            var context = new DataContext(connectionString, mappingConfig);
-            var repo = new Repository(context);
+            var customer = _repo.Find(new GetCustomerById(model.Id)).First();
 
-            var customer = repo.Find(new GetCustomerById(model.Id)).First();
-
-            customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
-            customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
+            customer.Company = _repo.Find(new GetCompanyById(customer.Id)).First();
+            customer.BillingAddress = _repo.Find(new GetBillingAddressById(customer.Id)).First();
 
             customer.FirstName = model.FirstName;
             customer.LastName = model.LastName;
@@ -164,7 +151,7 @@ namespace Customers.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                repo.Context.Commit();
+                _repo.Context.Commit();
             }
 
            return View("Index");

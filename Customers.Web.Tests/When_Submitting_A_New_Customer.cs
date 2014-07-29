@@ -38,7 +38,7 @@ namespace Customers.Web.Tests
             repo.Context.Add(newCustomer);
             repo.Context.Commit();
 
-            controller = new HomeController();
+            controller = new HomeController(repo);
 
         }
 
