@@ -14,9 +14,10 @@ namespace Customers.Web.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(int orderBy = 2)
         {
-            return View("Index");
+            ViewBag.OrderBy = orderBy;
+            return View();
         }
 
         public ViewResult AddCustomer()

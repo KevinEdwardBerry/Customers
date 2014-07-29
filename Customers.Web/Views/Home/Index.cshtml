@@ -4,7 +4,7 @@
 @using System.Data.Entity;
 @using Customers.Web.Models;
 
-@model CustomerModel
+@model IndexViewModel
 
 @{
     var connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
@@ -13,7 +13,7 @@
     var repo = new Repository(context);
 
     var customers = repo.Find(new GetAllCustomers()).ToList();
-    
+
     var companies = repo.Find(new GetAllCompanies()).ToList();
 
     foreach (var customer in customers)
@@ -21,6 +21,22 @@
         customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
     }
 
+    if (ViewBag.OrderBy > 0)
+    {
+        if (ViewBag.OrderBy == 1)
+        {
+            customers = customers.OrderBy(a => a.FirstName).ToList();
+        }
+        if (ViewBag.OrderBy == 2)
+        {
+            customers = customers.OrderBy(a => a.LastName).ToList();
+        }
+        if (ViewBag.OrderBy == 3)
+        {
+            customers = customers.OrderBy(a => a.Company.Name).ToList();
+        }
+    }
+    
     ViewBag.Title = "Customers";
 }
 <div class="row">
@@ -31,17 +47,17 @@
 
 <div>
     <center>
-        <table width="100%" class="show-for-medium-up">
+        <table class="show-for-medium-up">
             <thead>
                 <tr>
                     <td align="left">
-                        First Name
+                        @Html.ActionLink("First Name", "Index", new IndexViewModel() { OrderBy = 1 })
                     </td>
                     <td align="left">
-                        Last Name
+                        @Html.ActionLink("Last Name", "Index", new IndexViewModel() { OrderBy = 2 })
                     </td>
                     <td align="center">
-                        Company Name
+                        @Html.ActionLink("Company Name", "Index", new IndexViewModel() { OrderBy = 3 })
                     </td>
                     <td align="center">
                         Email Address
@@ -108,14 +124,14 @@
     <table class="show-for-small-only">
         <thead>
             <tr>
-                <td width="33%" align="left">
+                <td align="left">
                     First Name
                 </td>
-                <td width="33%" align="left">
+                <td align="left">
                     Last Name
                 </td>
                 
-                <td width ="33%" align="center">
+                <td align="center">
                     @Html.ActionLink("Add Customer", "AddCustomer", null, new { @class = "tiny button" })
                 </td>
             </tr>
