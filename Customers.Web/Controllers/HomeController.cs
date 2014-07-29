@@ -21,7 +21,7 @@ namespace Customers.Web.Controllers
             _repo = repo;
         }
 
-        public ActionResult Index(int orderBy = 2)
+        public ActionResult Index(int orderBy = 0)
         {
             ViewBag.OrderBy = orderBy;
             return View();
