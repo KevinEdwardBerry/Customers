@@ -23,8 +23,37 @@ namespace Customers.Web.Controllers
 
         public ActionResult Index(int orderBy = 0)
         {
-            ViewBag.OrderBy = orderBy;
-            return View();
+            var customers = _repo.Find(new GetAllCustomers()).ToList();
+            var companies = _repo.Find(new GetAllCompanies()).ToList();
+
+            foreach (var customer in customers)
+            {
+                customer.BillingAddress = _repo.Find(new GetBillingAddressById(customer.Id)).First();
+            }
+
+            if (orderBy > 0)
+            {
+                if (orderBy == 1)
+                {
+                    customers = customers.OrderBy(a => a.FirstName).ToList();
+                }
+                if (orderBy == 2)
+                {
+                    customers = customers.OrderBy(a => a.LastName).ToList();
+                }
+                if (orderBy == 3)
+                {
+                    customers = customers.OrderBy(a => a.Company.Name).ToList();
+                }
+            }
+
+            var model = new IndexViewModel()
+            {
+                OrderBy = orderBy,
+                Customers = customers
+            };
+            
+            return View(model);
         }
 
         public ViewResult AddCustomer()
@@ -111,7 +140,7 @@ namespace Customers.Web.Controllers
                     City = customer.BillingAddress.City,
                     State = customer.BillingAddress.State,
                     Zip = customer.BillingAddress.ZipCode,
-                    Id = customer.Id,
+                    Id = customer.Id
                 };
 
                 return View("EditCustomer", model);

@@ -7,36 +7,6 @@
 @model IndexViewModel
 
 @{
-    var connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
-    var mappingConfig = new MappingConfig();
-    var context = new DataContext(connectionString, mappingConfig);
-    var repo = new Repository(context);
-
-    var customers = repo.Find(new GetAllCustomers()).ToList();
-
-    var companies = repo.Find(new GetAllCompanies()).ToList();
-
-    foreach (var customer in customers)
-    {
-        customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
-    }
-
-    if (ViewBag.OrderBy > 0)
-    {
-        if (ViewBag.OrderBy == 1)
-        {
-            customers = customers.OrderBy(a => a.FirstName).ToList();
-        }
-        if (ViewBag.OrderBy == 2)
-        {
-            customers = customers.OrderBy(a => a.LastName).ToList();
-        }
-        if (ViewBag.OrderBy == 3)
-        {
-            customers = customers.OrderBy(a => a.Company.Name).ToList();
-        }
-    }
-    
     ViewBag.Title = "Customers";
 }
 <div class="row">
@@ -75,7 +45,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var customer in customers)
+                @foreach (var customer in Model.Customers)
                 {
                     <tr>
                         <td align="left">
@@ -137,7 +107,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var customer in customers)
+            @foreach (var customer in Model.Customers)
             {
                 <tr>
                     <td align="left">
