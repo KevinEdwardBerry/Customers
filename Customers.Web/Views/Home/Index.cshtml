@@ -95,12 +95,14 @@
         <thead>
             <tr>
                 <td align="left">
-                    First Name
+                    @Html.ActionLink("First Name", "Index", new IndexViewModel() { OrderBy = 1 })
                 </td>
                 <td align="left">
-                    Last Name
+                    @Html.ActionLink("Last Name", "Index", new IndexViewModel() { OrderBy = 2 })
                 </td>
-                
+                <td align="center">
+                    @Html.ActionLink("Company Name", "Index", new IndexViewModel() { OrderBy = 3 })
+                </td>
                 <td align="center">
                     @Html.ActionLink("Add Customer", "AddCustomer", null, new { @class = "tiny button" })
                 </td>
@@ -116,7 +118,9 @@
                     <td align="left">
                         @customer.LastName
                     </td>
-
+                    <td align="left">
+                        @customer.Company.Name
+                    </td>
                     <td align="center">
                         @Html.ActionLink("View Details", "ViewDetails", new { Model, customer.Id })
                     </td>

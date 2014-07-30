@@ -31,20 +31,17 @@ namespace Customers.Web.Controllers
                 customer.BillingAddress = _repo.Find(new GetBillingAddressById(customer.Id)).First();
             }
 
-            if (orderBy > 0)
+            if (orderBy == 1)
             {
-                if (orderBy == 1)
-                {
-                    customers = customers.OrderBy(a => a.FirstName).ToList();
-                }
-                if (orderBy == 2)
-                {
-                    customers = customers.OrderBy(a => a.LastName).ToList();
-                }
-                if (orderBy == 3)
-                {
-                    customers = customers.OrderBy(a => a.Company.Name).ToList();
-                }
+                customers = customers.OrderBy(a => a.FirstName).ToList();
+            }
+            if (orderBy == 2)
+            {
+                customers = customers.OrderBy(a => a.LastName).ToList();
+            }
+            if (orderBy == 3)
+            {
+                customers = customers.OrderBy(a => a.Company.Name).ToList();
             }
 
             var model = new IndexViewModel()
