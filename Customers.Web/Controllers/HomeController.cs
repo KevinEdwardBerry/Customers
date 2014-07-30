@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using Customers.Data;
 using Customers.Domain;
 using Customers.Web.Models;
-using Customers.Data;
 using Highway.Data;
-using System.Data.Entity;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Customers.Web.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-        IRepository _repo;
+        private readonly IRepository _repo;
 
         public HomeController(IRepository repo)
         {
@@ -24,11 +20,11 @@ namespace Customers.Web.Controllers
         public ActionResult Index(int orderBy = 0)
         {
             var customers = _repo.Find(new GetAllCustomers()).ToList();
-            var companies = _repo.Find(new GetAllCompanies()).ToList();
 
             foreach (var customer in customers)
             {
                 customer.BillingAddress = _repo.Find(new GetBillingAddressById(customer.Id)).First();
+                customer.Company = _repo.Find(new GetCompanyById(customer.Id)).First();
             }
 
             if (orderBy == 1)
@@ -65,21 +61,19 @@ namespace Customers.Web.Controllers
 
         public ActionResult DeleteCurrentCustomer(int id)
         {
-            if (id > 0)
-            {
-                var customer = _repo.Find(new GetCustomerById(id)).First();
+            if (id <= 0) return RedirectToAction("Index");
 
-                customer.BillingAddress = _repo.Find(new GetBillingAddressById(customer.Id)).First();
-                customer.Company = _repo.Find(new GetCompanyById(customer.Id)).First();
+            var customer = _repo.Find(new GetCustomerById(id)).First();
 
-                if (customer.Id > 0)
-                {
-                    _repo.Context.Remove(customer.BillingAddress);
-                    _repo.Context.Remove(customer.Company);
-                    _repo.Context.Remove(customer);
-                    _repo.Context.Commit();
-                }
-            }
+            customer.BillingAddress = _repo.Find(new GetBillingAddressById(customer.Id)).First();
+            customer.Company = _repo.Find(new GetCompanyById(customer.Id)).First();
+
+            if (customer.Id <= 0) return RedirectToAction("Index");
+
+            _repo.Context.Remove(customer.BillingAddress);
+            _repo.Context.Remove(customer.Company);
+            _repo.Context.Remove(customer);
+            _repo.Context.Commit();
 
             return RedirectToAction("Index");
         }
@@ -87,33 +81,29 @@ namespace Customers.Web.Controllers
         [HttpPost]
         public ActionResult SubmitNewCustomer(CustomerModel model)
         {
-            var customer = new Customer()
+            var customer = new Customer
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Company = new Company(model.CompanyName),
                 Email = model.Email,
-                Phone = model.Phone
+                Phone = model.Phone,
+                BillingAddress = new CustomerBillingAddress
+                {
+                    Street1 = model.Street1,
+                    Street2 = model.Street2,
+                    City = model.City,
+                    State = model.State,
+                    ZipCode = model.Zip
+                }
             };
 
-            customer.BillingAddress = new CustomerBillingAddress()
-            {
-                Street1 = model.Street1,
-                Street2 = model.Street2,
-                City = model.City,
-                State = model.State,
-                ZipCode = model.Zip
-            };
+            if (!ModelState.IsValid) return View("AddCustomer", model);
 
-            if (ModelState.IsValid)
-            {
-                _repo.Context.Add(customer);
-                _repo.Context.Commit();
+            _repo.Context.Add(customer);
+            _repo.Context.Commit();
 
-                return View("NewCustomerConfirmation", model);
-            }
-
-            return View("AddCustomer", model);
+            return View("NewCustomerConfirmation", model);
         }
 
         public ActionResult EditCurrentCustomer(int id)
@@ -142,10 +132,8 @@ namespace Customers.Web.Controllers
 
                 return View("EditCustomer", model);
             }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult ViewDetails(CustomerModel model)
@@ -176,11 +164,9 @@ namespace Customers.Web.Controllers
             customer.BillingAddress.ZipCode = model.Zip;
 
             if (ModelState.IsValid)
-            {
                 _repo.Context.Commit();
-            }
 
-           return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
     }
 }

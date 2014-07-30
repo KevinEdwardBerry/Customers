@@ -54,5 +54,12 @@ namespace Customers.Web.Tests
             var result = controller.EditCurrentCustomer(0) as ActionResult;
             Assert.IsNotNull(result);
         }
+
+        [Test]
+        public void When_Trying_To_Add_A_New_Customer_One_Should_Get_The_Correct_View()
+        {
+            var result = controller.AddCustomer() as ViewResult;
+            Assert.IsNotNull(result);
+        }
     }
 }
