@@ -81,7 +81,7 @@ namespace Customers.Web.Controllers
                 }
             }
 
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -144,7 +144,7 @@ namespace Customers.Web.Controllers
             }
             else
             {
-                return View("Index");
+                return RedirectToAction("Index");
             }
         }
 
@@ -180,7 +180,7 @@ namespace Customers.Web.Controllers
                 _repo.Context.Commit();
             }
 
-           return View("Index");
+           return RedirectToAction("Index");
         }
     }
 }

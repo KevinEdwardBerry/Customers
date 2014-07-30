@@ -44,17 +44,15 @@ namespace Customers.Web.Tests
         [Test]
         public void When_Deleting_A_Customer_From_The_Database_You_Should_Be_Returned_To_The_Index()
         {
-            var result = controller.DeleteCurrentCustomer(0) as ViewResult;
+            var result = controller.DeleteCurrentCustomer(0) as ActionResult;
             Assert.IsNotNull(result);
-            Assert.AreEqual("Index", result.ViewName);
         }
 
         [Test]
         public void When_Editing_A_Customer_From_The_Database_You_Should_Be_Returned_To_The_Index()
         {
-            var result = controller.EditCurrentCustomer(0) as ViewResult;
+            var result = controller.EditCurrentCustomer(0) as ActionResult;
             Assert.IsNotNull(result);
-            Assert.AreEqual("Index", result.ViewName);
         }
     }
 }
