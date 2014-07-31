@@ -1,66 +1,52 @@
 ﻿@using Customers.Web.Models
-@using Highway.Data;
-@using System.Data.Entity;
-@using Customers.Data;
 
 @model CustomerModel
 
-@{
-    var connectionString = "Data Source=tcp:h14og81azd.database.windows.net,1433;Initial Catalog=customers_new_db;User ID=kevin@h14og81azd;Password=Sup3erS3cureP4ssw0rd";
-    var mappingConfig = new MappingConfig();
-    var context = new DataContext(connectionString, mappingConfig);
-    var repo = new Repository(context);
-
-    var customers = repo.Find(new GetAllCustomers()).ToList();
-    var customer = customers.Where(c => c.Id == @Model.Id).First();
-
-    customer.Company = repo.Find(new GetCompanyById(customer.Id)).First();
-    customer.BillingAddress = repo.Find(new GetBillingAddressById(customer.Id)).First();
-    
+@{  
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>@Model.FirstName @Model.LastName Details</h2>
 
-<table width="100%" class="small-2">
+<table class="small-12 columns">
     <tr>
         <td>
-            Company Name: @customer.Company.Name
+            Company Name: @Model.CompanyName
         </td>
     </tr>
     <tr>
         <td>
-            Email Address: @customer.Email
+            Email Address: @Model.Email
         </td>
     </tr>
     <tr>
         <td>
-            Phone Number: @customer.Phone
+            Phone Number: @Model.Phone
         </td>
     </tr>
     <tr>
         <td>
-            Street 1: @customer.BillingAddress.Street1
+            Street 1: @Model.Street1
         </td>
     </tr>
     <tr>
         <td>
-            Street 2: @customer.BillingAddress.Street2
+            Street 2: @Model.Street2
         </td>
     </tr>
     <tr>
         <td>
-            City: @customer.BillingAddress.City
+            City: @Model.City
         </td>
     </tr>
     <tr>
         <td>
-            State: @customer.BillingAddress.State
+            State: @Model.State
         </td>
     <tr>
         <td>
-            Zip Code: @customer.BillingAddress.ZipCode
+            Zip Code: @Model.Zip
         </td>
     </tr>
     <tr>

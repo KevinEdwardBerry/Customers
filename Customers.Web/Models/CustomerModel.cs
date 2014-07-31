@@ -1,11 +1,5 @@
 ﻿using Customers.Domain;
-using Customers.Data;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Customers.Web.Models;
-using Customers.Web.Controllers;
 using System.ComponentModel.DataAnnotations;
 
 namespace Customers.Web.Models

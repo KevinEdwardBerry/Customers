@@ -1,4 +1,5 @@
-﻿using Customers.Data;
+﻿using System.Runtime.InteropServices;
+using Customers.Data;
 using Customers.Domain;
 using Customers.Web.Models;
 using Highway.Data;
@@ -136,8 +137,23 @@ namespace Customers.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult ViewDetails(CustomerModel model)
+        public ActionResult ViewDetails(Customer customer)
         {
+            customer = _repo.Find(new GetCustomerById(customer.Id)).First();
+            var model = new CustomerModel()
+            {
+                LastName = customer.LastName,
+                CompanyName = customer.Company.Name,
+                Email = customer.Email,
+                FirstName = customer.FirstName,
+                Phone = customer.Phone,
+                Street1 = customer.BillingAddress.Street1,
+                Street2 = customer.BillingAddress.Street2,
+                City = customer.BillingAddress.City,
+                State = customer.BillingAddress.State,
+                Zip = customer.BillingAddress.ZipCode,
+                Id = customer.Id
+            };
             return View("Details", model);
         }
 
